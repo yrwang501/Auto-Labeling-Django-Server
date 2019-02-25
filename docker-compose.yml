@@ -23,7 +23,7 @@ services:
 
   cvat:
     container_name: cvat
-    image: cvat_integrated_bigdl_predicting_fixed_save_twice_24
+    image: cvat_integrated_bigdl_predicting
     restart: always
     depends_on:
       - cvat_redis
@@ -34,8 +34,8 @@ services:
     build:
       context: .
       args:
-        http_proxy: "http://10.239.4.101:913"
-        https_proxy: "https://10.239.4.101:913"
+        http_proxy: "http://10.239.4.100:913"
+        https_proxy: "https://10.239.4.100:913"
         no_proxy:
         TF_ANNOTATION: "no"
         USER: "django"

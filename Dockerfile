@@ -106,11 +106,10 @@ RUN if [ "$WITH_TESTS" = "yes" ]; then \
 # Install and initialize CVAT, copy all necessary files, bigDL jar, and HBase XML config files
 COPY cvat/requirements/ /tmp/requirements/
 COPY supervisord.conf mod_wsgi.conf wait-for-it.sh manage.py ${HOME}/
-RUN  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r /tmp/requirements/${DJANGO_CONFIGURATION}.txt
-RUN pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple jupyter
+RUN  pip3 install -i https://mirrors.aliyun.com/pypi/simple --no-cache-dir -r /tmp/requirements/${DJANGO_CONFIGURATION}.txt
+RUN pip3 install -i https://mirrors.aliyun.com/pypi/simple jupyter
 COPY cvat/ ${HOME}/cvat
 COPY tests ${HOME}/tests
-COPY test_images ${HOME}/test_images
 COPY jupyter_notebooks ${HOME}/jupyter_notebooks
 COPY Hbase.py ${HOME}/Hbase.py
 COPY ttypes.py ${HOME}/ttypes.py
@@ -121,8 +120,11 @@ COPY predict_script.sh ${HOME}/predict_script.sh
 COPY train_script.sh ${HOME}/train_script.sh
 COPY model_new_helper_API_10.obj ${HOME}/model_new_helper_API_10.obj
 COPY proxy.py ${HOME}/proxy.py
+COPY cvat_integrated_bigdl_predicting_6_training.jar ${HOME}/cvat_integrated_bigdl_predicting_6_training.jar
+COPY rt.sh ${HOME}/rt.sh
 RUN patch -p1 < ${HOME}/cvat/apps/engine/static/engine/js/3rdparty.patch
 RUN chown -R ${USER}:${USER} .
+#RUN nohup bash -c "python3 ${HOME}/proxy.py &" && sleep 4
 
 # In order to fix the compatibility problem between python3 and HBase, ask for permission and substitute
 # the Hbase.py and ttypes.py (in ${HOME}/) for those in original package directory
@@ -131,6 +133,7 @@ RUN rm /usr/local/lib/python3.5/dist-packages/hbase/Hbase.py
 RUN rm /usr/local/lib/python3.5/dist-packages/hbase/ttypes.py
 RUN cp ${HOME}/Hbase.py /usr/local/lib/python3.5/dist-packages/hbase/Hbase.py
 RUN cp ${HOME}/ttypes.py /usr/local/lib/python3.5/dist-packages/hbase/ttypes.py
+
 # RUN mkdir /home/xml_File
 # RUN mv ${HOME}/hbase-site.xml /home/xml_File/
 # RUN mv ${HOME}/core-site.xml /home/xml_File/
