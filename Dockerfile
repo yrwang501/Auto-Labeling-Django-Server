@@ -120,8 +120,8 @@ COPY predict_script.sh ${HOME}/predict_script.sh
 COPY train_script.sh ${HOME}/train_script.sh
 COPY model_new_helper_API_10.obj ${HOME}/model_new_helper_API_10.obj
 COPY proxy.py ${HOME}/proxy.py
-COPY cvat_integrated_bigdl_predicting_6_training.jar ${HOME}/cvat_integrated_bigdl_predicting_6_training.jar
-COPY rt.sh ${HOME}/rt.sh
+#COPY cvat_integrated_bigdl_predicting_6_training.jar ${HOME}/cvat_integrated_bigdl_predicting_6_training.jar
+#COPY rt.sh ${HOME}/rt.sh
 RUN patch -p1 < ${HOME}/cvat/apps/engine/static/engine/js/3rdparty.patch
 RUN chown -R ${USER}:${USER} .
 #RUN nohup bash -c "python3 ${HOME}/proxy.py &" && sleep 4

@@ -1,0 +1,3 @@
+run command: python3 manage.py createsuperuser
+goto URL: http://ai-master-bigdl-0.sh.intel.com:8080/create/task/kfb_test_new_server/positive negative/kfb_512_100_test/123_s20
+
