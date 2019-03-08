@@ -79,3 +79,50 @@ index 8e6cbfd..93d7d6f 100644
  INTERNAL_IPS = ['127.0.0.1']
  
  try:
+diff --git a/docker-compose.yml b/docker-compose.yml
+index 37f747c..fe0deba 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -31,8 +31,8 @@ services:
+     ports:
+       - "8080:8080"
+       - "5050:5050"
+-      #- "13345:13345"
+-#      - "4040:4040"
++      - "13345:13345"
++      - "4040:4040"
+       - "14448:14448"
+       - "13338:13338"
+     build:
+diff --git a/runserver.sh b/runserver.sh
+index 7b57a27..de7356f 100644
+--- a/runserver.sh
++++ b/runserver.sh
+@@ -3,7 +3,7 @@ $SPARK_HOME/bin/spark-submit --master "spark://ai-master-bigdl-0.sh.intel.com:70
+     --conf 'spark.executor.extraJavaOptions=-Dbigdl.engineType=mkldnn' \
+    --conf 'spark.driver.port=13338' \
+    --conf 'spark.blockManager.port=14448' \
+-   --conf 'spark.driver.host=chengguosu.sh.intel.com' \
++   --conf 'spark.driver.host=ai-master-bigdl-0.sh.intel.com' \
+    --conf 'spark.driver.bindAddress=0.0.0.0' \
+ 	 --driver-memory 4g --class com.intel.aimaster.PredictorServer \
+ 	--total-executor-cores 48\
+@@ -13,4 +13,4 @@ $SPARK_HOME/bin/spark-submit --master "spark://ai-master-bigdl-0.sh.intel.com:70
+ 	hbase-site.xml \
+ 	hdfs://ai-master-bigdl-0.sh.intel.com:8020/model_new_helper_API_10.obj \
+ 	kfb_512_100_test \
+-	http://chengguosu.sh.intel.com:13345/updateStatus
++ http://ai-master-bigdl-0.sh.intel.com:13345/updateStatus
+diff --git a/supervisord.conf b/supervisord.conf
+index acc9bec..ff94175 100644
+--- a/supervisord.conf
++++ b/supervisord.conf
+@@ -35,6 +35,6 @@ command=%(ENV_HOME)s/wait-for-it.sh cvat_db:5432 -t 0 -- bash -ic "/usr/bin/pyth
+ [program:runjupyter]
+ command=%(ENV_HOME)s/wait-for-it.sh cvat_db:5432 -t 0 -- bash -ic "jupyter notebook --ip=0.0.0.0 --port=5050 --NotebookApp.token='' --NotebookApp.password='' "
+ 
+-#[program:runsparkserver]
+-#command=%(ENV_HOME)s/wait-for-it.sh cvat_db:5432 -t 0 -- bash -ic "sh ~/runserver.sh"
++[program:runsparkserver]
++command=%(ENV_HOME)s/wait-for-it.sh cvat_db:5432 -t 0 -- bash -ic "sh ~/runserver.sh"
+ 
