@@ -352,21 +352,49 @@ function slidingPredictionRequest(taskID, tableName, groupSize, iters, curIter, 
 
 function bigdlStartPrediction(taskID, tableName, startFrame, stopFrame, curStartFrame, curStopFrame, predictBatchSize){
     $('#progressBar').removeClass('hidden');
-    $('#progressBar').text(`${curStartFrame}/${stopFrame + 1}`);
+    //$('#progressBar').text(`${curStartFrame}/${stopFrame + 1}`);
+    let requestURL;
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1'){
+        requestURL = 'http://127.0.0.1:13345/';
+    }else{
+        requestURL = 'http://ai-master-bigdl-0.sh.intel.com:13345/';
+    }
     $.ajax({
-        url: `start/prediction/${tableName}`,
-        success: () => {
-            if (curStopFrame + predictBatchSize <= stopFrame){
-                bigdlPredictionRequest(taskID, tableName, startFrame, stopFrame, curStartFrame, curStopFrame, predictBatchSize);
-            }else if (curStopFrame < stopFrame){
-                bigdlPredictionRequest(taskID, tableName, startFrame, stopFrame, curStartFrame, stopFrame, stopFrame - curStartFrame + 1);
+        url: requestURL + `start/predict/${tableName}`,
+        dataType: 'json',
+        success: (data) => {
+            function executeQuery() {
+                $.ajax({
+                    url: requestURL + `predict/${startFrame}/${stopFrame}`,
+                    dataType: 'json',
+                    success: function(data) {
+                        if(data.status=="running")
+                        {
+                            $('#progressBar').removeClass('hidden');
+                            $('#progressBar').text(`${data.progress}/${data.total}`);
+                            setTimeout(executeQuery, 1000); 
+                        }
+                        else if(data.status=="idle")
+                        {
+                            $('#progressBar').text('');
+                            $('#progressBar').addClass('hidden');
+                            window.location.reload();                       
+                        }
+                        else{
+                            alert('There was a problem with the request!');
+                        }
+
+                    },
+                    error: () => {
+                        alert('There was a problem with the request!');
+                    }
+                });
+                
             }
-            else {
-                bigdlStopPrediction(taskID, tableName);
-                $('#progressBar').text('');
-                $('#progressBar').addClass('hidden');
-                window.location.reload();
-            }
+            if(data.accepted)
+                executeQuery();
+            else
+                alert('Job submission failed! There may be another prediction job running.');
         },
         error: () => {
             alert('There was a problem with the request!');
