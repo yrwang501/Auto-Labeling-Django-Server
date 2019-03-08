@@ -61,10 +61,10 @@ RUN wget https://build.funtoo.org/distfiles/oracle-java/jdk-8u152-linux-x64.tar.
 
 
 #spark
-RUN wget http://mirrors.shu.edu.cn/apache/spark/spark-2.3.2/spark-2.3.2-bin-hadoop2.7.tgz && \
-    tar -zxvf spark-2.3.2-bin-hadoop2.7.tgz && \
-    rm spark-2.3.2-bin-hadoop2.7.tgz && \
-    mv spark-2.3.2-bin-hadoop2.7 /opt/
+RUN wget https://archive.apache.org/dist/spark/spark-2.1.0/spark-2.1.0-bin-hadoop2.7.tgz && \
+    tar -zxvf spark-2.1.0-bin-hadoop2.7.tgz && \
+    rm spark-2.1.0-bin-hadoop2.7.tgz && \
+    mv spark-2.1.0-bin-hadoop2.7 /opt/
 
 # Add a non-root user
 ENV USER=${USER}
@@ -105,11 +105,11 @@ RUN if [ "$WITH_TESTS" = "yes" ]; then \
 
 # Install and initialize CVAT, copy all necessary files, bigDL jar, and HBase XML config files
 COPY cvat/requirements/ /tmp/requirements/
-COPY supervisord.conf mod_wsgi.conf wait-for-it.sh manage.py ${HOME}/
 RUN  pip3 install -i https://mirrors.aliyun.com/pypi/simple --no-cache-dir -r /tmp/requirements/${DJANGO_CONFIGURATION}.txt
 RUN pip3 install -i https://mirrors.aliyun.com/pypi/simple jupyter
-COPY cvat/ ${HOME}/cvat
+COPY supervisord.conf mod_wsgi.conf wait-for-it.sh manage.py ${HOME}/
 COPY tests ${HOME}/tests
+COPY cvat/ ${HOME}/cvat
 COPY jupyter_notebooks ${HOME}/jupyter_notebooks
 COPY Hbase.py ${HOME}/Hbase.py
 COPY ttypes.py ${HOME}/ttypes.py
@@ -120,6 +120,7 @@ COPY predict_script.sh ${HOME}/predict_script.sh
 COPY train_script.sh ${HOME}/train_script.sh
 COPY model_new_helper_API_10.obj ${HOME}/model_new_helper_API_10.obj
 COPY proxy.py ${HOME}/proxy.py
+COPY runserver.sh ${HOME}/runserver.sh
 #COPY cvat_integrated_bigdl_predicting_6_training.jar ${HOME}/cvat_integrated_bigdl_predicting_6_training.jar
 #COPY rt.sh ${HOME}/rt.sh
 RUN patch -p1 < ${HOME}/cvat/apps/engine/static/engine/js/3rdparty.patch
@@ -140,7 +141,7 @@ RUN cp ${HOME}/ttypes.py /usr/local/lib/python3.5/dist-packages/hbase/ttypes.py
 
 # set up java and spark environment paths
 ENV JAVA_HOME="/opt/jdk"
-ENV SPARK_HOME="/opt/spark-2.3.2-bin-hadoop2.7"
+ENV SPARK_HOME="/opt/spark-2.1.0-bin-hadoop2.7"
 ENV PATH=${JAVA_HOME}/bin:${SPARK_HOME}/bin:${PATH}
 
 

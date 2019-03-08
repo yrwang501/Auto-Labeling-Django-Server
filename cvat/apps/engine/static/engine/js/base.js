@@ -360,13 +360,13 @@ function bigdlStartPrediction(taskID, tableName, startFrame, stopFrame, curStart
         requestURL = 'http://ai-master-bigdl-0.sh.intel.com:13345/';
     }
     $.ajax({
-        url: requestURL + `start/predict/${tableName}`,
-        dataType: 'json',
+        url: requestURL + `predict/${startFrame}/${stopFrame}`,
+        //dataType: 'jsonp',
         success: (data) => {
             function executeQuery() {
                 $.ajax({
-                    url: requestURL + `predict/${startFrame}/${stopFrame}`,
-                    dataType: 'json',
+                    url: requestURL + `status`,
+                    //dataType: 'jsonp',
                     success: function(data) {
                         if(data.status=="running")
                         {
@@ -386,7 +386,7 @@ function bigdlStartPrediction(taskID, tableName, startFrame, stopFrame, curStart
 
                     },
                     error: () => {
-                        alert('There was a problem with the request!');
+                        alert('There was a problem with the request! - Run');
                     }
                 });
                 
@@ -396,8 +396,8 @@ function bigdlStartPrediction(taskID, tableName, startFrame, stopFrame, curStart
             else
                 alert('Job submission failed! There may be another prediction job running.');
         },
-        error: () => {
-            alert('There was a problem with the request!');
+        error: (xhr, status, error) => {
+            alert('There was a problem with the request! - Init');
         },
     });
 }

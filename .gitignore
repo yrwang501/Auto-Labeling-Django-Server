@@ -7,6 +7,9 @@
 /keys
 /logs
 
+*.crc
+resnet-imagenet/*
+*.log
 # Ignore temporary files
 docker-compose.override.yml
 /.vscode

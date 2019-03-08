@@ -28,7 +28,7 @@ urlpatterns = [
     path('remove/train/<str:table_name>/<int:frame_id>', views.remove_from_training_set),
     path('move/train/<int:tid>/<str:table_name>/<int:image_width>/<int:image_height>/<int:crop_width>/<int:crop_height>/<int:neg_num>', views.move_images_to_training_folder),
     path('start/prediction/<str:table_name>', views.start_prediction),
-    path('predict/labels/sliding/<int:start>/<int:stop>', views.predict_with_sliding_window),
+    #path('predict/labels/sliding/<int:start>/<int:stop>', views.predict_with_sliding_window),
     path('stop/prediction/<int:tid>/<str:table_name>', views.stop_prediction),
     path('remove/labels/<str:table_name>', views.remove_labels),
     path('return/untrained/indices/<str:table_name>', views.return_untrained_indices),
