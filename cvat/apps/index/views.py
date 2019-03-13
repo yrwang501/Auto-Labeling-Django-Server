@@ -34,8 +34,8 @@ def index(request):
                 tmp['name'] = table.decode('utf-8')
                 tmp['type'] = 'Medical Imaging'
                 tmp['link'] = 'http://127.0.0.1:8080/?id=71'
-                tmp['training_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/training_script.ipynb'
-                tmp['inference_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/inference_script.ipynb'
+                tmp['training_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/jupyter_notebooks/training_script.ipynb'
+                tmp['inference_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/jupyter_notebooks/training_script.ipynb'
             data.append(tmp)
         
         context = {'tables': data}
