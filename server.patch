@@ -40,7 +40,7 @@ index 97ab610..97aa006 100644
      resp_dict = r.json()
      return resp_dict['jobs']
 diff --git a/cvat/apps/index/views.py b/cvat/apps/index/views.py
-index 0db8eda..7d3a0eb 100644
+index 7d3a0eb..0e2a586 100644
 --- a/cvat/apps/index/views.py
 +++ b/cvat/apps/index/views.py
 @@ -26,18 +26,18 @@ def index(request):
@@ -58,7 +58,7 @@ index 0db8eda..7d3a0eb 100644
 -                tmp['link'] = 'http://127.0.0.1:8080/?id=71'
 +                tmp['link'] = 'http://ai-master-bigdl-0.sh.intel.com:8080/?id=1'
                  tmp['training_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/jupyter_notebooks/training_script.ipynb'
-                 tmp['inference_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/jupyter_notebooks/training_script.ipynb'
+                 tmp['inference_link'] = 'http://ai-master-bigdl-0.sh.intel.com:5050/notebooks/jupyter_notebooks/inference_script.ipynb'
              data.append(tmp)
          
          context = {'tables': data}
