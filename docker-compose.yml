@@ -31,8 +31,8 @@ services:
     ports:
       - "8080:8080"
       - "5050:5050"
-      #- "13345:13345"
-#      - "4040:4040"
+      - "13345:13345"
+      - "4040:4040"
       - "14448:14448"
       - "13338:13338"
     build:
@@ -49,9 +49,9 @@ services:
       DJANGO_MODWSGI_EXTRA_ARGS: ""
       DJANGO_LOG_SERVER_URL: ""
     volumes:
-      - cvat_data:/home/django/data
-      - cvat_keys:/home/django/keys
-      - cvat_logs:/home/django/logs
+      - cvat_data:/home/wyr/Desktop/AImaster/Auto-Labeling-Django-Server/django/data
+      - cvat_keys:/home/wyr/Desktop/AImaster/Auto-Labeling-Django-Server/django/keys
+      - cvat_logs:/home/wyr/Desktop/AImaster/Auto-Labeling-Django-Server/django/logs
 
 volumes:
   cvat_db:
